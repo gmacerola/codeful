@@ -22,6 +22,8 @@ export default class App extends React.Component {
       content: "",
       folderId: "",
       modified: "",
+      value: "**Hello world!!!**",
+      selectedTab: "write",
     },
     setNewFolder: (e) => this.setState({ newFolder: e.target.value }),
     addFolder: (e) => {
