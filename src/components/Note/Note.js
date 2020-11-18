@@ -33,7 +33,7 @@ export default class Note extends Component {
     return notes.length > 0 && !note.id ? (
       <Redirect to="/" />
     ) : (
-      <div className="Note">
+      <div className="note">
         <h2 className="Note__title">
           <Link to={`/note/${noteid}`}>{note.title}</Link>
         </h2>
