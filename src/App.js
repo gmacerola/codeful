@@ -10,6 +10,7 @@ import Note from "./components/Note/Note";
 import AddNote from "./components/AddNote/AddNote";
 import AddFolder from "./components/AddFolder/AddFolder";
 import LoginPage from "./components/LoginPage/LoginPage";
+import TokenService from "./services/token-service";
 import "./App.css";
 
 export default class App extends React.Component {
@@ -109,9 +110,15 @@ export default class App extends React.Component {
       <CodefulContext.Provider value={this.state}>
         <div className="App">
           <header className="Header">
-            <h1>
-              <Link to="/">Codeful</Link>
-            </h1>
+            {TokenService.hasAuthToken() ? (
+              <h1>
+                <Link to="/notebook">Codeful</Link>
+              </h1>
+            ) : (
+              <h1>
+                <Link to="/">Codeful</Link>
+              </h1>
+            )}
           </header>
           <main>
             {/* <ErrorPage>

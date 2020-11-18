@@ -18,10 +18,12 @@ export default class FolderPage extends Component {
     const filteredNotes = this.context.notes.filter(
       (note) => note.folder_id === Number(this.props.match.params.folderid)
     );
+
+    // const folderName =
     console.log(filteredNotes);
     return (
       <div className="FoldersNotes">
-        <p>Notes</p>
+        <p></p>
         <ul className="NotesList">
           {filteredNotes.map((note) => (
             <li key={note.id} className="note">
