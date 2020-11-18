@@ -19,8 +19,7 @@ export default class AddNote extends Component {
     value: "**Hello world!!!**",
     selectedTab: "write",
   };
-  // const [value, setValue] = React.useState("**Hello world!!!**");
-  // const [selectedTab, setSelectedTab] = React.useState("write");
+
   render() {
     return (
       <div className="createNoteForm">
@@ -31,7 +30,7 @@ export default class AddNote extends Component {
         >
           <input
             type="text"
-            value={this.context.newNote.name}
+            value={this.context.newNote.title}
             placeholder="Name"
             onChange={(e) =>
               this.context.setNewNoteName(e, this.context.newNote)
@@ -48,7 +47,7 @@ export default class AddNote extends Component {
             aria-label="Note Content"
           /> */}
           <select
-            value={this.context.newNote.folderId}
+            value={this.context.newNote.folder_id}
             onChange={(g) =>
               this.context.setNewNoteFolderId(g, this.context.newNote)
             }
@@ -67,9 +66,7 @@ export default class AddNote extends Component {
         <div className="container">
           <ReactMde
             value={this.context.newNote.content}
-            onChange={(f) =>
-              this.context.setNewNoteContent(f, this.context.newNote)
-            }
+            onChange={this.context.setNewNoteContent}
             selectedTab={this.state.selectedTab}
             onTabChange={(selectedTab) => this.setState({ selectedTab })}
             generateMarkdownPreview={(markdown) =>
@@ -81,7 +78,7 @@ export default class AddNote extends Component {
         <h2>Preview:</h2>
         <div
           dangerouslySetInnerHTML={{
-            __html: converter.makeHtml(this.state.value),
+            __html: converter.makeHtml(this.context.newNote.content),
           }}
         />
       </div>

@@ -1,23 +1,52 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import CodefulContext from "../../CodefulContext";
+import * as Showdown from "showdown";
+import { findNote } from "../../NotesHelper";
 import "./Note.css";
+
+const converter = new Showdown.Converter({
+  tables: true,
+  simplifiedAutoLink: true,
+  strikethrough: true,
+  tasklists: true,
+});
 
 export default class Note extends Component {
   static contextType = CodefulContext;
 
+  static defaultProps = {
+    match: {
+      params: {},
+    },
+  };
+
+  handleDeleteNote = (noteid) => {
+    this.props.history.push(`/notebook`);
+  };
+
   render() {
-    const { title, id, modified } = this.props;
-    return (
+    const { notes = [] } = this.context;
+    const { noteid } = this.props.match.params;
+    const note = findNote(notes, noteid) || { content: "" };
+    console.log(noteid);
+    return notes.length > 0 && !note.id ? (
+      <Redirect to="/" />
+    ) : (
       <div className="Note">
         <h2 className="Note__title">
-          <Link to={`/note/${id}`}>{title}</Link>
+          <Link to={`/note/${noteid}`}>{note.title}</Link>
         </h2>
         <div className="Note__dates">
           <div className="Note__dates-modified">
-            Modified <span className="Date">{modified}</span>
+            Modified <span className="Date">{note.modified}</span>
           </div>
         </div>
+        <div
+          dangerouslySetInnerHTML={{
+            __html: converter.makeHtml(note.content),
+          }}
+        />
       </div>
     );
   }

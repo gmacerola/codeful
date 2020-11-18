@@ -25,9 +25,7 @@ export default class FolderPage extends Component {
         <ul className="NotesList">
           {filteredNotes.map((note) => (
             <li key={note.id} className="note">
-              <Link to={{ pathname: `authorized/note/${note.id}` }}>
-                {note.name}{" "}
-              </Link>
+              <Link to={`/note/${note.id}`}>{note.title} </Link>
               <p>{Date(note.modified).toLocaleString()}</p>
             </li>
           ))}

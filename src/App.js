@@ -18,12 +18,10 @@ export default class App extends React.Component {
     folders: [],
     newFolder: "",
     newNote: {
-      name: "",
+      title: "",
       content: "",
-      folderId: "",
+      folder_id: 0,
       modified: "",
-      value: "**Hello world!!!**",
-      selectedTab: "write",
     },
     setNewFolder: (e) => this.setState({ newFolder: e.target.value }),
     addFolder: (e) => {
@@ -43,36 +41,44 @@ export default class App extends React.Component {
       }
     },
     setNewNoteName: (e, oldNote) =>
-      this.setState({ newNote: { ...oldNote, name: e.target.value } }),
-    setNewNoteContent: (f, oldNote) =>
-      this.setState({ newNote: { ...oldNote, content: f.target.value } }),
-    setNewNoteFolderId: (g, oldNote) =>
-      this.setState({ newNote: { ...oldNote, folderId: g.target.value } }),
+      this.setState({ newNote: { ...oldNote, title: e.target.value } }),
+    setNewNoteContent: (content) =>
+      this.setState({ newNote: { ...this.state.newNote, content } }),
+    setNewNoteFolderId: (e, oldNote) =>
+      this.setState({
+        newNote: { ...oldNote, folder_id: Number(e.target.value) },
+      }),
     createNote: (e, history) => {
       e.preventDefault();
       if (
-        this.state.newNote.name === "" ||
+        this.state.newNote.title === "" ||
         this.state.newNote.content === "" ||
-        this.state.newNote.folderId === ""
+        this.state.newNote.folder_id === ""
       ) {
-        this.state.setError("💥 Name, Content, Folder Required! 💥");
+        this.state.setError("💥 Title, Content, Folder Required! 💥");
       } else {
         this.state.setError(null);
         const newNote = {
-          name: this.state.newNote.name,
+          title: this.state.newNote.title,
           content: this.state.newNote.content,
-          folderId: this.state.newNote.folderId,
-          modified: new Date(),
+          folder_id: this.state.newNote.folder_id,
+          modified: new Date().toISOString(),
+          id: this.state.notes.length + 1,
         };
-        this.setState({
-          notes: [...this.state.notes, newNote],
-          newNote: {
-            name: "",
-            content: "",
-            folderId: "",
-            modified: "",
+        this.setState(
+          {
+            notes: [...this.state.notes, newNote],
+            newNote: {
+              title: "",
+              content: "",
+              folder_id: 0,
+              modified: "",
+            },
           },
-        });
+          () => {
+            history.push(`/folder/${newNote.folder_id}`);
+          }
+        );
       }
     },
     error: null,
