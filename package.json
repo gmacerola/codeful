@@ -12,6 +12,7 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.0",
     "showdown": "^1.9.1",
+    "showdown-highlight": "^2.1.5",
     "web-vitals": "^0.2.4"
   },
   "scripts": {

@@ -34,43 +34,163 @@ module.exports = {
   notes: [
     {
       id: 1,
-      name: "Cats",
+      name: "Constant time O(1)",
       modified: "2018-08-15T23:00:00.000Z",
       folderId: "b07161a6-ffaf-11e8-8eb2-f2801f1b9fd1",
       content:
-        "Eos laudantium quia ab blanditiis temporibus necessitatibus. Culpa et voluptas ut sed commodi. Est qui ducimus id. Beatae sint aspernatur error ullam quae illum sint eum. Voluptas corrupti praesentium soluta cumque illo impedit vero omnis nisi.\n \rNam sunt reprehenderit soluta quis explicabo impedit id. Repudiandae eligendi libero ad ut dolores. Laborum nihil sint et labore iusto reiciendis cum. Repellat quos recusandae natus nobis ullam autem veniam id.\n \rEsse blanditiis neque tempore ex voluptate commodi nemo. Velit sapiente at placeat eveniet ut rem. Quidem harum ut dignissimos. Omnis pariatur quas aperiam. Quasi voluptas qui nulla. Iure quas veniam aut quia et.",
+        "Constant time complexity is the "holy grail". No matter the size of your input, the algorithm will take the same amount of time to complete. Examples of O(1) algorithms are accessing an array item or performing basic arithmetic operations (e.g., adding 2 numbers). The following is an example of an algorithm with O(1) runtime complexity.  
+        'function getRandomItem(array) {
+            let ticks = 0;
+            // Get a random number and access that element in the array
+            const item = array[Math.floor(Math.random() * array.length)];
+            ticks++;
+            return {
+              result: item,
+              ticks: ticks
+            };
+        }'",
     },
     {
-      id: "d26e01a6-ffaf-11e8-8eb2-f2801f1b9fd1",
-      name: "Pigs",
+      id: 2,
+      name: "Logarithmic time O(log(n))",
       modified: "2018-03-01T00:00:00.000Z",
       folderId: "b07161a6-ffaf-11e8-8eb2-f2801f1b9fd1",
       content:
-        "Occaecati dignissimos quam qui facere deserunt quia. Quaerat aut eos laudantium dolor odio officiis illum. Velit vel qui dolorem et.\n \rQui ut vel excepturi in at. Ut accusamus cumque quia sapiente ut ipsa nesciunt. Dolorum quod eligendi qui aliquid sint.\n \rAt id deserunt voluptatem et rerum. Voluptatem fuga tempora aut dignissimos est odio maiores illo. Fugiat in ad expedita voluptas voluptatum nihil.",
+        "Logarithmic time complexity (O(log n)) is the next best thing after constant time. While logarithmic time complexity algorithms do take longer with larger inputs, running time increases slowly. For instance, if myLogRunTimeAlgo takes 1 second to complete with an input of size 10, when we increase our input by 10x to 100, the running time only grows to 2 seconds. When we increase the input size to 1000, the time only grows to 3 seconds.
+        It is also characteristic of logarithmic algorithms that they cut the problem size in half each round through.
+        '
+        function howManyLessThanNitems(arr, n) {
+          let ticks = 0;
+          /* If the 1st element in the array is greater than `n`, return 0,
+          because no items in the array are less than `n`. */
+          if (!arr.length || arr[0] >= n) {
+            ticks++;
+            return 0;
+          }
+
+          let lowIndex = 0, highIndex = arr.length;
+
+          while (highIndex > lowIndex) {
+          // Find midpoint
+          let midIndex = Math.floor((highIndex + lowIndex) / 2);
+          /* If `midIndex` element is greater than `n`, that means all elements
+          to the right of `midIndex` are also greater than `n`, so
+          we only need to focus on elements to the left of `midIndex`.
+          We set `highIndex` to the current value of `midIndex` so next time
+          through the loop, we'll only look at the left half */
+          if (arr[midIndex] >= n) {
+            highIndex = midIndex;
+            ticks++;
+          }
+
+          /* If the element to the right of `midIndex` is less than `n`, then we
+          know that we need to check the items to the right of `midIndex`, so
+          we set `lowIndex` to the current value of `midIndex`, so that next
+          time through the loop we only look at the right side */
+          else if (arr[midIndex + 1] < n) {
+            lowIndex = midIndex;
+            ticks++;
+          }
+
+          /* Otherwise, if the element to the right of `midIndex` is greater
+          than or equal to `n`, we know that the item at `midIndex` is the last
+          item that's less than `n`, so we return `midIndex +  1` to get the total
+          number of items that are less than `n` */
+          else {
+            ticks++;
+            return {
+                result: midIndex + 1,
+                ticks: ticks
+            }
+          }
+        }
+      }
+      '
+      ",
     },
     {
       id: "d26e0570-ffaf-11e8-8eb2-f2801f1b9fd1",
-      name: "Birds",
+      name: "Linear time O(n)",
       modified: "2019-01-04T00:00:00.000Z",
       folderId: "b0715efe-ffaf-11e8-8eb2-f2801f1b9fd1",
       content:
-        "Eum culpa odit. Veniam porro molestiae dolores sunt reiciendis culpa. Atque accusamus dolore eos odio facilis. Dolores reprehenderit et provident dolores possimus mollitia.\n \rAdipisci dolor necessitatibus nihil quod quia vel veniam. Placeat qui vero. Cum cum amet at nisi. Distinctio rerum similique explicabo atque ratione. Recusandae omnis earum est. Quas iusto nihil itaque architecto ea.\n \rPerferendis neque doloremque quibusdam accusantium ut dolor illum dolorum. Vero et similique nihil beatae. In repellendus dolores praesentium. Optio alias rerum culpa placeat maiores natus sed. Ipsa et qui cum ex maiores.",
+        "Algorithms with linear time complexity (O(n)) have running times that are directly proportional to the size (n) of the input. Given input a and input b, where b is twice as large as a, it will take a linear algorithm 2 times as long to process b compared to a.
+        Some examples of linear complexity algorithms are summing the elements in an array and finding the minimum or maximum value in an array.
+        '
+        function findMin(array){
+          let min = array[0], ticks = 1;
+          for (let i = 1; i < array.length; i++) {
+            ticks++;
+            if (array[i] < min) {
+              min = array[i];
+            }
+          }
+          return {
+            result: min,
+            ticks: ticks
+          };
+        }
+        '
+      ",
     },
     {
       id: "d26e0714-ffaf-11e8-8eb2-f2801f1b9fd1",
-      name: "Bears",
+      name: "Polynomial time O(n^k)",
       modified: "2018-07-12T23:00:00.000Z",
       folderId: "b0715efe-ffaf-11e8-8eb2-f2801f1b9fd1",
       content:
-        "Distinctio dolor nihil ad iure quo tempore id ipsum. Doloremque sunt dicta odit. Id veritatis aut et doloremque natus.\n \rDeleniti temporibus repellendus molestias nemo. Cupiditate quae consectetur. Reiciendis corporis maxime consequatur qui quaerat cum aut. Quia officiis aut.\n \rAsperiores aut culpa voluptatem amet accusantium officia. Et et et adipisci ullam nesciunt eum magni totam. Quae repellendus suscipit animi vel laudantium sed enim nulla esse. Cupiditate quos minus laudantium autem eum quas tempore. Eos quibusdam quibusdam. Voluptatem molestiae qui accusamus blanditiis voluptates quia.",
+        "An algorithm with polynomial time complexity has a running time that would be some input size n raised to some constant power k. The easiest way to understand polynomial time complexity is with nested loops. An algorithm that requires 2 levels of looping over an input would be O(n^2) while one requiring 3 levels of looping would be O(n^3). In both cases, we have polynomial time complexity.
+        '
+        function hasDuplicates(array) {
+          let ticks = 0, result = false;
+          for (let i = 0; i < array.length; i++) {
+            ticks++;
+          for (let j = 0; j < array.length; j++) {
+            ticks++;
+            if (array[i] === array[j] && i !== j) {
+                result = true;
+            }
+          }
+        }
+      return {
+        result: result,
+        ticks: ticks
+      };
+      }
+      '
+      ",
     },
     {
       id: "d26e0854-ffaf-11e8-8eb2-f2801f1b9fd1",
-      name: "Horses",
+      name: "Exponential time O(2^n)",
       modified: "2018-08-20T23:00:00.000Z",
       folderId: "b07161a6-ffaf-11e8-8eb2-f2801f1b9fd1",
       content:
-        "Aliquid magnam ut quis quas impedit molestiae laudantium adipisci et. Officiis ut dolor rerum molestiae. Natus rerum libero aperiam. Rem aut consequatur. Quas soluta modi rerum id qui quis et voluptatem perferendis.\n \rIpsum quod sed minima rerum. Voluptatem pariatur voluptatem iure. Voluptatem perferendis qui doloremque distinctio nobis praesentium corrupti unde sed.\n \rPlaceat deleniti in praesentium aut tenetur. Recusandae debitis sint voluptates quam sed eum et quos qui. Atque esse nostrum et architecto qui perspiciatis odit aut. Aut quis corrupti ut. Maiores ratione sit dolor consectetur eius iusto illo sequi. Mollitia fugit dolores.",
+        "Algorithms with exponential time complexity (O(2^n)) have running times that grow rapidly with any increase in input size. For an input of size 2, an exponential time algorithm will take 2^2 = 4 time. With an input of size 10, the same algorithm will take 2^10 = 1024 time, and with an input of size 100, it will take 2^100 = 1.26765060022823 * 1030 time.
+        '
+        function countTriangle(layers) {
+          let ticks = 1;
+          let count = 0; // the number of dots we've counted so far
+          let layer = 0; // the current layer we're on
+          let lastLayer = 1; // the number of dots we counted in the previous layer
+          while (layer < layers) {
+            ticks++;
+            let newLayer = 0; // the number of dots we've counted so far in the current layer
+            for (let i = 0; i < lastLayer; i++) {
+              ticks++;
+              newLayer += 2;
+            }
+            lastLayer = newLayer;
+            count += lastLayer;
+            layer++;
+          }
+          return {
+            result: count,
+            ticks: ticks
+          };
+        }
+        '
+    ",
     },
     {
       id: "d26e0980-ffaf-11e8-8eb2-f2801f1b9fd1",

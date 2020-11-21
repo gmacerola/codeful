@@ -20,7 +20,6 @@ export default class FolderPage extends Component {
     );
     const folderIndex = Number(this.props.match.params.folderid) - 1;
     const folderName = this.context.folders[folderIndex].title;
-    console.log(folderName);
     return (
       <div className="FoldersNotes">
         <p>{folderName} Notes</p>

@@ -29,7 +29,7 @@ export default class Note extends Component {
     const { notes = [] } = this.context;
     const { noteid } = this.props.match.params;
     const note = findNote(notes, noteid) || { content: "" };
-    console.log(noteid);
+
     return notes.length > 0 && !note.id ? (
       <Redirect to="/" />
     ) : (
@@ -47,6 +47,15 @@ export default class Note extends Component {
             __html: converter.makeHtml(note.content),
           }}
         />
+        <button
+          className="deleteNote"
+          value={noteid}
+          onClick={() =>
+            this.context.handleDeleteNote(note.id, this.props.history)
+          }
+        >
+          Delete Note
+        </button>
       </div>
     );
   }

@@ -32,14 +32,26 @@ export default class App extends React.Component {
       } else {
         this.state.setError(null);
         const newFolder = {
-          id: this.state.folders.length,
-          name: this.state.newFolder,
+          id: this.state.folders.length + 1,
+          title: this.state.newFolder,
         };
         this.setState({
           folders: [...this.state.folders, newFolder],
           newFolder: "",
         });
       }
+    },
+    handleDeleteNote: (noteid, history) => {
+      console.log(noteid);
+      this.setState(
+        {
+          notes: this.state.notes.filter((note) => {
+            console.log(note.id, noteid);
+            return note.id !== noteid;
+          }),
+        },
+        () => history.push("/")
+      );
     },
     setNewNoteName: (e, oldNote) =>
       this.setState({ newNote: { ...oldNote, title: e.target.value } }),
