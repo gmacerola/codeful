@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import AuthAPIService from "../../services/auth-api-service";
 import TokenService from "../../services/token-service";
 import "./LoginPage.css";
 
@@ -7,18 +8,30 @@ import CodefulContext from "../../CodefulContext";
 export default class LoginPage extends Component {
   static contextType = CodefulContext;
 
+  state = {
+    error: null,
+  };
+
   handleLogin = (e) => {
     e.preventDefault();
     const { email, password } = e.target;
-    const newUser = { email: email.value, password: password.value };
-    TokenService.saveAuthToken("testing");
-    this.props.history.push("/notebook");
+    this.setState({ error: null });
+    const user = { email: email.value, password: password.value };
+    AuthAPIService.loginUser(user)
+      .then((loginResponse) => {
+        TokenService.saveAuthToken(loginResponse.authToken);
+        this.props.history.push("/notebook");
+      })
+      .catch((res) => {
+        this.setState({ error: res.error });
+      });
   };
 
   render() {
     return (
       <div className="loginForm">
         <form className="loginUser" onSubmit={this.handleLogin}>
+          {this.state.error && <p className="error">{this.state.error}</p>}
           <label className="loginEmail" htmlFor="userEmail">
             Email
           </label>
@@ -29,7 +42,7 @@ export default class LoginPage extends Component {
             name="email"
             aria-required="true"
             aria-label="New User Email"
-            value="demo@demo.com"
+            defaultValue="demo@demo.com"
           />
           <label className="loginPassword" htmlFor="userPassword">
             Password
@@ -41,7 +54,7 @@ export default class LoginPage extends Component {
             name="password"
             aria-required="true"
             aria-label="Password"
-            value="P@ssword1234!"
+            defaultValue="12345678"
           />
           <input type="submit" value="Login" aria-label="Login" />
         </form>

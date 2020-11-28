@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import TokenService from "../../services/token-service";
+import AuthApiService from "../../services/auth-api-service";
 import "./Registration.css";
 
 import CodefulContext from "../../CodefulContext";
@@ -7,18 +7,31 @@ import CodefulContext from "../../CodefulContext";
 export default class Registration extends Component {
   static contextType = CodefulContext;
 
+  state = {
+    error: null,
+  };
+
   handleRegistration = (e) => {
     e.preventDefault();
     const { email, password } = e.target;
-    const newUser = { email: email.value, password: password.value };
-    TokenService.saveAuthToken("testing");
-    this.props.history.push("/notebook");
+    this.setState({ error: null });
+    AuthApiService.postUser({
+      email: email.value,
+      password: password.value,
+    })
+      .then((user) => {
+        this.props.history.push("/login");
+      })
+      .catch((res) => {
+        this.setState({ error: res.error });
+      });
   };
 
   render() {
     return (
       <div className="registrationForm">
         <form className="addUser" onSubmit={this.handleRegistration}>
+          {this.state.error && <p className="error">{this.state.error}</p>}
           <label className="registrationEmail" htmlFor="newUserEmail">
             Email
           </label>
@@ -29,7 +42,6 @@ export default class Registration extends Component {
             name="email"
             aria-required="true"
             aria-label="New User Email"
-            value="demo@demo.com"
           />
           <label className="registrationPassword" htmlFor="newUserPassword">
             Password
@@ -41,7 +53,6 @@ export default class Registration extends Component {
             name="password"
             aria-required="true"
             aria-label="Password"
-            value="P@ssword1234!"
           />
           <input type="submit" value="Register" aria-label="Register" />
         </form>

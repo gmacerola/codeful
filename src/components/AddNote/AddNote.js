@@ -31,21 +31,12 @@ export default class AddNote extends Component {
           <input
             type="text"
             value={this.context.newNote.title}
-            placeholder="Name"
+            placeholder="Note Title"
             onChange={(e) =>
               this.context.setNewNoteName(e, this.context.newNote)
             }
-            aria-label="Note Name"
+            aria-label="Note Title"
           />
-          {/* <input
-            type="text"
-            value={this.context.newNote.content}
-            placeholder="Content"
-            onChange={(f) =>
-              this.context.setNewNoteContent(f, this.context.newNote)
-            }
-            aria-label="Note Content"
-          /> */}
           <select
             value={this.context.newNote.folder_id}
             onChange={(g) =>
@@ -53,7 +44,7 @@ export default class AddNote extends Component {
             }
             aria-label="Select Folder"
           >
-            <option value="None">Select</option>
+            <option value="None">Select Folder</option>
             {this.context.folders.map((folder) => (
               <option key={folder.id} value={folder.id}>
                 {folder.title}
