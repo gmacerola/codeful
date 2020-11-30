@@ -1,7 +1,8 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import "./FolderPage.css";
 import PropTypes from "prop-types";
+import TokenService from "../../services/token-service";
 
 import CodefulContext from "../../CodefulContext";
 
@@ -20,7 +21,9 @@ export default class FolderPage extends Component {
     );
     const folderIndex = Number(this.props.match.params.folderid) - 1;
     const folderName = this.context.folders[folderIndex].title;
-    return (
+    return this.context.notes.length > 0 && !TokenService.hasAuthToken() ? (
+      <Redirect to="/" />
+    ) : (
       <div className="FoldersNotes">
         <p>{folderName} Notes</p>
         <ul className="NotesList">

@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, Link } from "react-router-dom";
+import { Route, Link, Redirect } from "react-router-dom";
 import CodefulContext from "./CodefulContext";
 import Registration from "./components/Registration/Registration";
 import LandingPage from "./components/LandingPage/LandingPage";
@@ -98,25 +98,31 @@ export default class App extends React.Component {
     setError: (error) => this.setState({ error }),
   };
 
-  componentDidMount() {
-    Promise.all([
-      fetch("https://nameless-gorge-83479.herokuapp.com/api/notes"),
-      fetch("https://nameless-gorge-83479.herokuapp.com/api/folders"),
-    ])
-      .then(([notesRes, foldersRes]) => {
-        if (!notesRes.ok) return notesRes.json().then((e) => Promise.reject(e));
-        if (!foldersRes.ok)
-          return foldersRes.json().then((e) => Promise.reject(e));
+  // componentDidMount() {
+  //   if (TokenService.hasAuthToken()) {
+  //     console.log("testing");
+  //     Promise.all([
+  //       fetch("http://localhost:8000/api/notes"),
+  //       fetch("http://localhost:8000/api/folders"),
+  //     ])
+  //       .then(([notesRes, foldersRes]) => {
+  //         if (!notesRes.ok)
+  //           return notesRes.json().then((e) => Promise.reject(e));
+  //         if (!foldersRes.ok)
+  //           return foldersRes.json().then((e) => Promise.reject(e));
 
-        return Promise.all([notesRes.json(), foldersRes.json()]);
-      })
-      .then(([notes, folders]) => {
-        this.setState({ notes, folders });
-      })
-      .catch((error) => {
-        console.error({ error });
-      });
-  }
+  //         return Promise.all([notesRes.json(), foldersRes.json()]);
+  //       })
+  //       .then(([notes, folders]) => {
+  //         this.setState({ notes, folders });
+  //       })
+  //       .catch((error) => {
+  //         console.error({ error });
+  //       });
+  //   } else {
+  //     <Redirect to="/" />;
+  //   }
+  // }
   render() {
     return (
       <CodefulContext.Provider value={this.state}>

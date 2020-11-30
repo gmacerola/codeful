@@ -13,8 +13,24 @@ export default class Notebook extends Component {
 
   static contextType = CodefulContext;
 
+  componentDidMount() {
+    Promise.all([fetch("http://localhost:8000/api/folders")])
+      .then(([foldersRes]) => {
+        if (!foldersRes.ok)
+          return foldersRes.json().then((e) => Promise.reject(e));
+
+        return Promise.all([foldersRes.json()]);
+      })
+      .then(([folders]) => {
+        this.setState({ folders });
+      })
+      .catch((error) => {
+        console.error({ error });
+      });
+  }
+
   render() {
-    return this.context.notes.length > 0 && !TokenService.hasAuthToken() ? (
+    return this.context.folders.length >= 0 && !TokenService.hasAuthToken() ? (
       <Redirect to="/" />
     ) : (
       <div className="notebook">
