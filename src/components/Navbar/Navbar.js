@@ -9,6 +9,7 @@ export default class Navbar extends Component {
 
   logout = () => {
     TokenService.clearAuthToken();
+    this.context.logout();
     this.props.history.push("/");
   };
 

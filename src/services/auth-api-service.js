@@ -2,7 +2,6 @@ import config from "../config";
 
 export default {
   postUser(user) {
-    console.log({ user });
     return fetch(`${config.DATABASE_URL}/api/users`, {
       method: "POST",
       headers: {

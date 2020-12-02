@@ -1,8 +1,7 @@
 import React, { Component } from "react";
-import { Link, Redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "./FolderPage.css";
 import PropTypes from "prop-types";
-import TokenService from "../../services/token-service";
 
 import CodefulContext from "../../CodefulContext";
 
@@ -16,16 +15,14 @@ export default class FolderPage extends Component {
   };
 
   render() {
+    const folder_id = Number(this.props.match.params.folderid);
     const filteredNotes = this.context.notes.filter(
-      (note) => note.folder_id === Number(this.props.match.params.folderid)
+      (note) => note.folder_id === folder_id
     );
-    const folderIndex = Number(this.props.match.params.folderid) - 1;
-    const folderName = this.context.folders[folderIndex].title;
-    return this.context.notes.length > 0 && !TokenService.hasAuthToken() ? (
-      <Redirect to="/" />
-    ) : (
+    const folder = this.context.folders.find((f) => f.id === folder_id) || {};
+    return (
       <div className="FoldersNotes">
-        <p>{folderName} Notes</p>
+        <p>{folder.title} Notes</p>
         <ul className="NotesList">
           {filteredNotes.map((note) => (
             <li key={note.id} className="note">

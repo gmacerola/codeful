@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import config from "../../config";
+import TokenService from "../../services/token-service";
 import "./AddFolder.css";
 
 import CodefulContext from "../../CodefulContext";
@@ -10,12 +11,13 @@ export default class AddFolder extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
     const folder = {
-      title: e.target["folder-name"].value,
+      title: e.target.folder.value,
     };
     fetch(`${config.DATABASE_URL}/api/folders`, {
       method: "POST",
       headers: {
         "content-type": "application/json",
+        Authorization: `Bearer ${TokenService.getAuthToken()}`,
       },
       body: JSON.stringify(folder),
     })
@@ -35,12 +37,12 @@ export default class AddFolder extends Component {
   render() {
     return (
       <div>
-        <form className="addFolder" onSubmit={(e) => this.context.addFolder(e)}>
+        <form className="addFolder" onSubmit={this.handleSubmit}>
           <input
             type="text"
-            value={this.context.newFolder}
+            name="folder"
+            id="folder"
             placeholder="New Folder"
-            onChange={(e) => this.context.setNewFolder(e)}
             aria-required="true"
             aria-label="New Folder"
           />
