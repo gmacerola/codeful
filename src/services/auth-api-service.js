@@ -2,7 +2,7 @@ import config from "../config";
 
 export default {
   postUser(user) {
-    return fetch(`${config.DATABASE_URL}/api/users`, {
+    return fetch(`${config.DATABASE_URL}api/users`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -13,7 +13,7 @@ export default {
     );
   },
   loginUser(user) {
-    return fetch(`${config.DATABASE_URL}/api/auth/login`, {
+    return fetch(`${config.DATABASE_URL}api/auth/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
