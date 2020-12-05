@@ -30,7 +30,7 @@ export default class AddNote extends Component {
       content: this.state.content,
       folder_id: e.target.folder_id.value,
     };
-    fetch(`${config.DATABASE_URL}/api/notes`, {
+    fetch(`${config.DATABASE_URL}api/notes`, {
       method: "POST",
       headers: {
         "content-type": "application/json",

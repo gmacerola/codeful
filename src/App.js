@@ -65,7 +65,7 @@ export default class App extends React.Component {
         });
     },
     getNotes: () => {
-      fetch(`${config.DATABASE_URL}/api/notes`, {
+      fetch(`${config.DATABASE_URL}api/notes`, {
         headers: {
           Authorization: `bearer ${TokenService.getAuthToken()}`,
         },

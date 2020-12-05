@@ -13,7 +13,7 @@ export default class AddFolder extends Component {
     const folder = {
       title: e.target.folder.value,
     };
-    fetch(`${config.DATABASE_URL}/api/folders`, {
+    fetch(`${config.DATABASE_URL}api/folders`, {
       method: "POST",
       headers: {
         "content-type": "application/json",
